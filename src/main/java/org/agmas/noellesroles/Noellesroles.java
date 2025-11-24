@@ -27,6 +27,7 @@ import org.agmas.noellesroles.packet.SwapperC2SPacket;
 
 import java.awt.*;
 import java.lang.reflect.Constructor;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Noellesroles implements ModInitializer {
@@ -61,13 +62,24 @@ public class Noellesroles implements ModInitializer {
     public static final CustomPayload.Id<MorphC2SPacket> MORPH_PACKET = MorphC2SPacket.ID;
     public static final CustomPayload.Id<SwapperC2SPacket> SWAP_PACKET = SwapperC2SPacket.ID;
     public static final CustomPayload.Id<AbilityC2SPacket> ABILITY_PACKET = AbilityC2SPacket.ID;
+    public static final ArrayList<TMMRoles.Role> VANNILA_ROLES = new ArrayList<>();
+    public static final ArrayList<Identifier> VANNILA_ROLE_IDS = new ArrayList<>();
     @Override
     public void onInitialize() {
+        VANNILA_ROLES.add(TMMRoles.KILLER);
+        VANNILA_ROLES.add(TMMRoles.VIGILANTE);
+        VANNILA_ROLES.add(TMMRoles.CIVILIAN);
+        VANNILA_ROLES.add(TMMRoles.LOOSE_END);
+        VANNILA_ROLE_IDS.add(TMMRoles.LOOSE_END.identifier());
+        VANNILA_ROLE_IDS.add(TMMRoles.VIGILANTE.identifier());
+        VANNILA_ROLE_IDS.add(TMMRoles.CIVILIAN.identifier());
+        VANNILA_ROLE_IDS.add(TMMRoles.KILLER.identifier());
+        NoellesRolesConfig.HANDLER.save();
+        NoellesRolesConfig.HANDLER.load();
         ModItems.init();
 
         rolePlayerCaps.put(JESTER_ID, 1);
         rolePlayerCaps.put(HOST_ID, 1);
-        NoellesRolesConfig.HANDLER.load();
 
         PayloadTypeRegistry.playC2S().register(MorphC2SPacket.ID, MorphC2SPacket.CODEC);
         PayloadTypeRegistry.playC2S().register(AbilityC2SPacket.ID, AbilityC2SPacket.CODEC);

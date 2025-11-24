@@ -9,6 +9,7 @@ import dev.doctor4t.trainmurdermystery.api.TMMRoles;
 import net.minecraft.command.CommandSource;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.util.Identifier;
+import org.agmas.noellesroles.Noellesroles;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -20,6 +21,7 @@ public class RoleSuggestionProvider implements SuggestionProvider<ServerCommandS
 
         for (TMMRoles.Role role : TMMRoles.ROLES ) {
             Identifier roleId = role.identifier();
+            if (Noellesroles.VANNILA_ROLE_IDS.contains(roleId)) continue;
             if (roleId != null && CommandSource.shouldSuggest(builder.getRemaining(), roleId.getPath())) {
                 builder.suggest(roleId.getPath());
             }
