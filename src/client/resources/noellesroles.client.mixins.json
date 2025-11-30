@@ -5,20 +5,23 @@
   "compatibilityLevel": "JAVA_21",
   "client": [
     "InstinctMixin",
+    "coroner.CoronerHudMixin",
     "morphling.MorphlingRendererMixin",
     "morphling.MorphlingRoleNameRendererMixin",
     "morphling.MorphlingScreenMixin",
     "phantom.PhantomHudMixin",
-    "swapper.SwapperScreenMixin",
-    "voodoo.VoodoScreenMixin",
     "seer.SeerHudMixin",
     "seer.SeerResetMixin",
-    "coroner.CoronerHudMixin"
+    "swapper.SwapperScreenMixin",
+    "voodoo.VoodoScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1
   },
   "overwrites": {
     "requireAnnotations": true
-  }
+  },
+  "mixins": [
+    "executioner.ExecutionerHudMixin"
+  ]
 }

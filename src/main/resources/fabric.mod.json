@@ -34,7 +34,8 @@
       "noellesroles:ability",
       "noellesroles:voodoo",
       "noellesroles:config",
-      "noellesroles:body_death_reason"
+      "noellesroles:body_death_reason",
+      "noellesroles:executioner"
     ]
   },
   "mixins": [

@@ -12,6 +12,7 @@ import dev.doctor4t.trainmurdermystery.game.GameFunctions;
 import dev.doctor4t.trainmurdermystery.index.TMMItems;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.loader.impl.util.log.Log;
@@ -26,6 +27,7 @@ import org.agmas.harpymodloader.Harpymodloader;
 import org.agmas.harpymodloader.config.HarpyModLoaderConfig;
 import org.agmas.harpymodloader.events.ModdedRoleAssigned;
 import org.agmas.noellesroles.config.NoellesRolesConfig;
+import org.agmas.noellesroles.executioner.ExecutionerPlayerComponent;
 import org.agmas.noellesroles.morphling.MorphlingPlayerComponent;
 import org.agmas.noellesroles.packet.AbilityC2SPacket;
 import org.agmas.noellesroles.packet.MorphC2SPacket;
@@ -34,8 +36,8 @@ import org.agmas.noellesroles.voodoo.VoodooPlayerComponent;
 
 import java.awt.*;
 import java.lang.reflect.Constructor;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
+import java.util.List;
 
 public class Noellesroles implements ModInitializer {
 
@@ -53,6 +55,7 @@ public class Noellesroles implements ModInitializer {
     public static Identifier VOODOO_ID = Identifier.of(MOD_ID, "voodoo");
     public static Identifier SEER_ID = Identifier.of(MOD_ID, "seer");
     public static Identifier CORONER_ID = Identifier.of(MOD_ID, "coroner");
+    public static Identifier EXECUTIONER_ID = Identifier.of(MOD_ID, "executioner");
     public static Identifier THE_INSANE_DAMNED_PARANOID_KILLER_OF_DOOM_DEATH_DESTRUCTION_AND_WAFFLES_ID = Identifier.of(MOD_ID, "the_insane_damned_paranoid_killer");
 
     public static HashMap<Role, RoleAnnouncementTexts.RoleAnnouncementText> roleRoleAnnouncementTextHashMap = new HashMap<>();
@@ -63,13 +66,15 @@ public class Noellesroles implements ModInitializer {
 
     public static Role BARTENDER =TMMRoles.registerRole(new Role(BARTENDER_ID, new Color(217,241,240).getRGB(),true,false, Role.MoodType.REAL,TMMRoles.CIVILIAN.getMaxSprintTime(),false));
     public static Role NOISEMAKER =TMMRoles.registerRole(new Role(NOISEMAKER_ID, new Color(200, 255, 0).getRGB(),true,false, Role.MoodType.REAL,TMMRoles.CIVILIAN.getMaxSprintTime(),false));
-    public static Role SWAPPER = TMMRoles.registerRole(new Role(SWAPPER_ID, new Color(63, 0, 255).getRGB(),false,true, Role.MoodType.FAKE,Integer.MAX_VALUE,false));
-    public static Role PHANTOM =TMMRoles.registerRole(new Role(PHANTOM_ID, new Color(80, 5, 5, 192).getRGB(),false,true, Role.MoodType.FAKE,Integer.MAX_VALUE,false));
+    public static Role SWAPPER = TMMRoles.registerRole(new Role(SWAPPER_ID, new Color(63, 0, 255).getRGB(),false,true, Role.MoodType.FAKE,Integer.MAX_VALUE,true));
+    public static Role PHANTOM =TMMRoles.registerRole(new Role(PHANTOM_ID, new Color(80, 5, 5, 192).getRGB(),false,true, Role.MoodType.FAKE,Integer.MAX_VALUE,true));
 
     public static Role VOODOO =TMMRoles.registerRole(new Role(VOODOO_ID, new Color(128, 114, 253).getRGB(),true,false,Role.MoodType.REAL, TMMRoles.CIVILIAN.getMaxSprintTime(),false));
     public static Role THE_INSANE_DAMNED_PARANOID_KILLER_OF_DOOM_DEATH_DESTRUCTION_AND_WAFFLES =TMMRoles.registerRole(new Role(THE_INSANE_DAMNED_PARANOID_KILLER_OF_DOOM_DEATH_DESTRUCTION_AND_WAFFLES_ID, new Color(255, 0, 0, 192).getRGB(),false,true, Role.MoodType.FAKE,Integer.MAX_VALUE,true));
     public static Role SEER =TMMRoles.registerRole(new Role(SEER_ID, new Color(114, 253, 211).getRGB(),true,false,Role.MoodType.REAL, TMMRoles.CIVILIAN.getMaxSprintTime(),false));
     public static Role CORONER =TMMRoles.registerRole(new Role(CORONER_ID, new Color(122, 122, 122).getRGB(),true,false,Role.MoodType.REAL, TMMRoles.CIVILIAN.getMaxSprintTime(),false));
+
+    public static Role EXECUTIONER =TMMRoles.registerRole(new Role(EXECUTIONER_ID, new Color(74, 27, 5).getRGB(),false,false,Role.MoodType.REAL, TMMRoles.CIVILIAN.getMaxSprintTime(),true));
 
     public static final CustomPayload.Id<MorphC2SPacket> MORPH_PACKET = MorphC2SPacket.ID;
     public static final CustomPayload.Id<SwapperC2SPacket> SWAP_PACKET = SwapperC2SPacket.ID;
@@ -92,6 +97,7 @@ public class Noellesroles implements ModInitializer {
         ModItems.init();
 
         Harpymodloader.setRoleMaximum(JESTER_ID,1);
+        Harpymodloader.setRoleMaximum(EXECUTIONER_ID,1);
         Harpymodloader.setRoleMaximum(CONDUCTOR_ID,1);
 
         PayloadTypeRegistry.playC2S().register(MorphC2SPacket.ID, MorphC2SPacket.CODEC);
@@ -101,13 +107,34 @@ public class Noellesroles implements ModInitializer {
         registerEvents();
 
         registerPackets();
+
     }
 
 
     public void registerEvents() {
+        ServerTickEvents.START_SERVER_TICK.register((server)->{
+            if (server.getPlayerManager().getCurrentPlayerCount() < 12) {
+                Harpymodloader.setRoleMaximum(EXECUTIONER_ID,0);
+            } else {
+                Harpymodloader.setRoleMaximum(EXECUTIONER_ID,1);
+            }
+        });
         ModdedRoleAssigned.EVENT.register((player,role)->{
             AbilityPlayerComponent abilityPlayerComponent = (AbilityPlayerComponent) AbilityPlayerComponent.KEY.get(player);
+            GameWorldComponent gameWorldComponent = (GameWorldComponent) GameWorldComponent.KEY.get(player.getWorld());
             abilityPlayerComponent.cooldown = NoellesRolesConfig.HANDLER.instance().generalCooldownTicks;
+            if (role.equals(EXECUTIONER)) {
+                ExecutionerPlayerComponent executionerPlayerComponent = (ExecutionerPlayerComponent) ExecutionerPlayerComponent.KEY.get(player);
+                List<UUID> innocentPlayers = new ArrayList<>();
+                gameWorldComponent.getRoles().forEach((uuid,role1)->{
+                    if (role1.isInnocent()) {
+                        innocentPlayers.add(uuid);
+                    }
+                });
+                Collections.shuffle(innocentPlayers);
+                executionerPlayerComponent.target = innocentPlayers.getFirst();
+                executionerPlayerComponent.sync();
+            }
             if (role.equals(SEER)) {
                 abilityPlayerComponent.cooldown = NoellesRolesConfig.HANDLER.instance().seerCooldownTicks;
             }

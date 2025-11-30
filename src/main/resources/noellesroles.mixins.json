@@ -7,6 +7,8 @@
     "bartender.BartenderReseterMixin",
     "bartender.CocktailItemMixin",
     "coroner.CoronerAddDeathReasonMixin",
+    "executioner.ExecutionerConfirmMixin",
+    "executioner.NoTargetBackfireMixin",
     "host.MasterKeyDropMixin",
     "host.MasterKeySmallDoorMixin",
     "host.MasterKeyTrainDoorMixin",

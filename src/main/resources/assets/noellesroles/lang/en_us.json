@@ -44,6 +44,10 @@
   "announcement.role.coroner": "Coroner",
   "announcement.win.coroner": "Passengers Win!",
 
+  "announcement.goals.executioner": "Become a killer once your target dies (to a non-killer).",
+  "announcement.role.executioner": "Executioner",
+  "announcement.win.executioner": "Passengers Win!",
+
   "announcement.goals.seer": "Check other player's roles.",
   "announcement.role.seer": "Seer",
   "announcement.win.seer": "Passengers Win!",
