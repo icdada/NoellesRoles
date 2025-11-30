@@ -42,14 +42,16 @@
 
   "announcement.goals.coroner": "Получите информацию о мертвых телах.",
   "announcement.role.coroner": "Детектив",
-  "announcement.win.coroner": "Passengers Win!",
+  "announcement.win.coroner": "Пассажиры победили!",
+  "hud.coroner.sanity_requirements": "Необходимо 50% рассудка, чтобы использовать эту способность",
+  "hud.coroner.death_info": "Умер %s с назад от",
 
-  "announcement.goals.executioner": "Become a killer once your target dies (to a non-killer).",
-  "announcement.role.executioner": "Executioner",
-  "announcement.win.executioner": "Passengers Win!",
+  "announcement.goals.executioner": "Станьте убийцей, как только ваша цель умрет (от рук не-убийцы).",
+  "announcement.role.executioner": "Жнец",
+  "announcement.win.executioner": "Пассажиры победили!",
 
-  "announcement.goals.seer": "Check other player's roles.",
-  "announcement.role.seer": "Seer",
+  "announcement.goals.seer": "Узнайте роли других игроков.",
+  "announcement.role.seer": "Провидец",
   "announcement.win.seer": "Пассажиры победили!",
 
 
@@ -57,12 +59,12 @@
   "item.noellesroles.master_key": "Мастер-ключ",
   "item.noellesroles.fake_knife": "Поддельный нож",
 
-  "death_reason.trainmurdermystery.gun_shot": "a bullet.",
-  "death_reason.trainmurdermystery.knife_stab": "a knife!",
-  "death_reason.trainmurdermystery.generic": "unknown causes.",
-  "death_reason.trainmurdermystery.bat_hit": "blunt force!",
-  "death_reason.trainmurdermystery.grenade": "an explosion!",
-  "death_reason.trainmurdermystery.poison": "poison!",
-  "death_reason.trainmurdermystery.fell_out_of_train": "being ran over.",
-  "death_reason.noellesroles.voodoo": "voodoo magic."
+  "death_reason.trainmurdermystery.gun_shot": "пули.",
+  "death_reason.trainmurdermystery.knife_stab": "ножа!",
+  "death_reason.trainmurdermystery.generic": "неизвестной причины.",
+  "death_reason.trainmurdermystery.bat_hit": "грубой силы!",
+  "death_reason.trainmurdermystery.grenade": "взрыва!",
+  "death_reason.trainmurdermystery.poison": "отравления!",
+  "death_reason.trainmurdermystery.fell_out_of_train": "падения с поезда.",
+  "death_reason.noellesroles.voodoo": "магии вуду."
 }

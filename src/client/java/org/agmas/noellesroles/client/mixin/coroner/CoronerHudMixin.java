@@ -53,12 +53,14 @@ public abstract class CoronerHudMixin {
                 context.getMatrices().scale(0.6F, 0.6F, 1.0F);
                 PlayerMoodComponent moodComponent = (PlayerMoodComponent) PlayerMoodComponent.KEY.get(MinecraftClient.getInstance().player);
                 if (moodComponent.isLowerThanMid() && TMMClient.isPlayerAliveAndInSurvival()) {
-                    Text name = Text.literal("50% sanity required to use ability");
+                    // Text name = Text.literal("50% sanity required to use ability");
+                    Text name = Text.translatable("hud.coroner.sanity_requirements");
                     context.drawTextWithShadow(renderer, name, -renderer.getWidth(name) / 2, 32, Colors.YELLOW);
                     return;
                 }
                 BodyDeathReasonComponent bodyDeathReasonComponent = (BodyDeathReasonComponent) BodyDeathReasonComponent.KEY.get(NoellesrolesClient.targetBody);
-                Text name = Text.literal("Died " + NoellesrolesClient.targetBody.age/20 + "s ago to ").append(Text.translatable("death_reason." + bodyDeathReasonComponent.deathReason.getNamespace()+ "." + bodyDeathReasonComponent.deathReason.getPath()));
+                // Text name = Text.literal("Died " + NoellesrolesClient.targetBody.age/20 + "s ago to ").append(Text.translatable("death_reason." + bodyDeathReasonComponent.deathReason.getNamespace()+ "." + bodyDeathReasonComponent.deathReason.getPath()));
+                Text name = Text.translatable("hud.coroner.death_info", NoellesrolesClient.targetBody.age/20).append(Text.translatable("death_reason." + bodyDeathReasonComponent.deathReason.getNamespace()+ "." + bodyDeathReasonComponent.deathReason.getPath()));
                 context.drawTextWithShadow(renderer, name, -renderer.getWidth(name) / 2, 32, Colors.RED);
 
                 context.getMatrices().pop();
