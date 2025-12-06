@@ -21,7 +21,9 @@ public abstract class CoronerAddDeathReasonMixin {
 
     @Inject(method = "killPlayer(Lnet/minecraft/entity/player/PlayerEntity;ZLnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/util/Identifier;)V", at = @At(value = "INVOKE", target = "Ldev/doctor4t/trainmurdermystery/entity/PlayerBodyEntity;setHeadYaw(F)V"), cancellable = true)
     private static void jesterJest(PlayerEntity victim, boolean spawnBody, PlayerEntity killer, Identifier identifier, CallbackInfo ci, @Local PlayerBodyEntity playerBodyEntity) {
-        ((BodyDeathReasonComponent)BodyDeathReasonComponent.KEY.get(playerBodyEntity)).deathReason = identifier;
+        (BodyDeathReasonComponent.KEY.get(playerBodyEntity)).deathReason = identifier;
+        GameWorldComponent gameWorldComponent = GameWorldComponent.KEY.get(victim.getWorld());
+        (BodyDeathReasonComponent.KEY.get(playerBodyEntity)).playerRole = gameWorldComponent.getRole(victim).identifier();
     }
 
 }

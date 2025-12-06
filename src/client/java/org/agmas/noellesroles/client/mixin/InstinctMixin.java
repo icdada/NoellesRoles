@@ -74,6 +74,12 @@ public abstract class InstinctMixin {
                 }
             }
             if (!((PlayerEntity)target).isSpectator() && TMMClient.isInstinctEnabled()) {
+                if (gameWorldComponent.isRole((PlayerEntity) target, Noellesroles.VULTURE) && TMMClient.isKiller() && TMMClient.isPlayerAliveAndInSurvival()) {
+                    cir.setReturnValue(Noellesroles.VULTURE.color());
+                    cir.cancel();
+                }
+            }
+            if (!((PlayerEntity)target).isSpectator() && TMMClient.isInstinctEnabled()) {
                 if (gameWorldComponent.isRole((PlayerEntity) target, Noellesroles.EXECUTIONER) && TMMClient.isKiller() && TMMClient.isPlayerAliveAndInSurvival()) {
                     cir.setReturnValue(Noellesroles.EXECUTIONER.color());
                     cir.cancel();

@@ -1,5 +1,6 @@
 package org.agmas.noellesroles.coroner;
 
+import dev.doctor4t.trainmurdermystery.api.TMMRoles;
 import dev.doctor4t.trainmurdermystery.entity.PlayerBodyEntity;
 import dev.doctor4t.trainmurdermystery.game.GameConstants;
 import dev.doctor4t.trainmurdermystery.game.GameFunctions;
@@ -18,6 +19,8 @@ import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
 public class BodyDeathReasonComponent implements AutoSyncedComponent, ServerTickingComponent {
     public static final ComponentKey<BodyDeathReasonComponent> KEY = ComponentRegistry.getOrCreate(Identifier.of(Noellesroles.MOD_ID, "body_death_reason"), BodyDeathReasonComponent.class);
     public Identifier deathReason = GameConstants.DeathReasons.GENERIC;
+    public Identifier playerRole = TMMRoles.CIVILIAN.identifier();
+    public boolean vultured = false;
     public PlayerBodyEntity playerBodyEntity;
 
     public void reset() {
@@ -34,10 +37,14 @@ public class BodyDeathReasonComponent implements AutoSyncedComponent, ServerTick
 
     public void writeToNbt(@NotNull NbtCompound tag, RegistryWrapper.WrapperLookup registryLookup) {
         tag.putString("deathReason", deathReason.toString());
+        tag.putString("playerRole", playerRole.toString());
+        tag.putBoolean("vultured", vultured);
     }
 
     public void readFromNbt(@NotNull NbtCompound tag, RegistryWrapper.WrapperLookup registryLookup) {
         this.deathReason = Identifier.of(tag.getString("deathReason"));
+        this.playerRole = Identifier.of(tag.getString("playerRole"));
+        this.vultured = tag.getBoolean("vultured");
     }
 
     @Override

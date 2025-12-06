@@ -14,7 +14,8 @@
     "phantom.PhantomHudMixin",
     "recaller.RecallerHudMixin",
     "swapper.SwapperScreenMixin",
-    "voodoo.VoodoScreenMixin"
+    "voodoo.VoodoScreenMixin",
+    "vulture.VultureHudMixin"
   ],
   "injectors": {
     "defaultRequire": 1

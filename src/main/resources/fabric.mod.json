@@ -36,7 +36,8 @@
       "noellesroles:config",
       "noellesroles:body_death_reason",
       "noellesroles:executioner",
-      "noellesroles:recaller"
+      "noellesroles:recaller",
+      "noellesroles:vulture"
     ]
   },
   "mixins": [

@@ -24,6 +24,7 @@ import org.agmas.noellesroles.AbilityPlayerComponent;
 import org.agmas.noellesroles.Noellesroles;
 import org.agmas.noellesroles.packet.AbilityC2SPacket;
 import org.agmas.noellesroles.packet.MorphC2SPacket;
+import org.agmas.noellesroles.packet.VultureEatC2SPacket;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.*;
@@ -62,6 +63,11 @@ public class NoellesrolesClient implements ClientModInitializer {
                 client.execute(() -> {
                     if (MinecraftClient.getInstance().player == null) return;
                     GameWorldComponent gameWorldComponent = (GameWorldComponent) GameWorldComponent.KEY.get(MinecraftClient.getInstance().player.getWorld());
+                    if (gameWorldComponent.isRole(MinecraftClient.getInstance().player, Noellesroles.VULTURE)) {
+                        if (targetBody == null) return;
+                        ClientPlayNetworking.send(new VultureEatC2SPacket(targetBody.getUuid()));
+                        return;
+                    }
                     ClientPlayNetworking.send(new AbilityC2SPacket());
                 });
             }

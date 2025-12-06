@@ -11,8 +11,11 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import org.agmas.noellesroles.executioner.ExecutionerPlayerComponent;
 import org.agmas.noellesroles.morphling.MorphlingPlayerComponent;
+import org.agmas.noellesroles.recaller.RecallerPlayerComponent;
 import org.agmas.noellesroles.voodoo.VoodooPlayerComponent;
+import org.agmas.noellesroles.vulture.VulturePlayerComponent;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -33,5 +36,8 @@ public abstract class MorphlingReseterMixin {
     private static void jesterWrite(ServerPlayerEntity player, CallbackInfo ci) {
         ((MorphlingPlayerComponent)MorphlingPlayerComponent.KEY.get(player)).reset();
         ((VoodooPlayerComponent)VoodooPlayerComponent.KEY.get(player)).reset();
+        (RecallerPlayerComponent.KEY.get(player)).reset();
+        (VulturePlayerComponent.KEY.get(player)).reset();
+        (ExecutionerPlayerComponent.KEY.get(player)).reset();
     }
 }

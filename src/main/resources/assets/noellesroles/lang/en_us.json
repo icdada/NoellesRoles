@@ -1,19 +1,15 @@
 {
   "announcement.goals.jester": "Find and co-operate with the Killers.",
   "announcement.role.jester": "Jester",
-  "announcement.win.jester": "Jesters Win!",
 
   "announcement.goals.morphling": "Fool everyone.",
   "announcement.role.morphling": "Morphling",
-  "announcement.win.morphling": "Killers Win!",
 
   "announcement.goals.awesome_binglus": "Awesome Binglu",
   "announcement.role.awesome_binglus": "Awesome Binglus",
-  "announcement.win.awesome_binglus": "Passengers Win!",
 
   "announcement.goals.conductor": "Use the master key to open up every door on the train!",
   "announcement.role.conductor": "Conductor",
-  "announcement.win.conductor": "Passengers Win!",
 
   "announcement.goals.the_insane_damned_paranoid_killer": "I hear dead people.",
   "announcement.role.the_insane_damned_paranoid_killer": "The Insane Damned Paranoid Killer Of Doom Death Destruction And Waffles",
@@ -22,23 +18,18 @@
 
   "announcement.goals.bartender": "See players that drink through walls!",
   "announcement.role.bartender": "Bartender",
-  "announcement.win.bartender": "Passengers Win!",
 
   "announcement.goals.phantom": "Turn invisible; but watch out for collisions.",
   "announcement.role.phantom": "Phantom",
-  "announcement.win.phantom": "Killers Win!",
 
   "announcement.goals.noisemaker": "Alert players of your location upon death.",
   "announcement.role.noisemaker": "Noisemaker",
-  "announcement.win.noisemaker": "Passengers Win!",
 
   "announcement.goals.voodoo": "Choose another player to go down with you.",
   "announcement.role.voodoo": "Voodoo",
-  "announcement.win.voodoo": "Passengers Win!",
 
   "announcement.goals.swapper": "Swap places with other players.",
   "announcement.role.swapper": "Swapper",
-  "announcement.win.swapper": "Killers Win!",
   "hud.swapper.first_player_selection": "Select first player to swap",
   "hud.swapper.second_player_selection": "Select second player to swap",
 
@@ -47,19 +38,21 @@
   "announcement.win.coroner": "Passengers Win!",
   "hud.coroner.sanity_requirements": "50% sanity required to use ability",
   "hud.coroner.death_info": "Died %ss ago to ",
+  "hud.coroner.role_info": "Their role was ",
 
   "announcement.goals.executioner": "Become a killer once your target dies (to a non-killer).",
   "announcement.role.executioner": "Executioner",
-  "announcement.win.executioner": "Passengers Win!",
 
   "announcement.goals.trapper": "Check other player's roles.",
   "announcement.role.trapper": "Trapper",
-  "announcement.win.trapper": "Passengers Win!",
 
   "announcement.goals.recaller": "Teleport to anywhere on the train!",
   "announcement.role.recaller": "Recaller",
-  "announcement.win.recaller": "Passengers Win!",
 
+  "announcement.goals.vulture": "Eat bodies to turn into a killer.",
+  "announcement.role.vulture": "Vulture",
+  "hud.vulture.eat": "Press %s to eat!",
+  "hud.vulture.already_consumed": "This body has been consumed.",
 
 
   "item.noellesroles.fake_revolver": "Fake Revolver",
@@ -80,6 +73,7 @@
   "tip.phantom": "Use %s to go invisible!",
   "tip.recaller.place": "Use %s to save your location!",
   "tip.recaller.teleport": "Use %s to teleport!",
+  "tip.vulture": "%s/%s bodies eaten.",
   "tip.recaller.not_enough_money": "100\uE781 required to teleport.",
   "tip.noellesroles.cooldown": "Ability usable in %ss"
 }
