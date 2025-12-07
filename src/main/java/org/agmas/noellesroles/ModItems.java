@@ -25,6 +25,10 @@ public class ModItems {
             new Item(new Item.Settings().maxCount(1)),
             "master_key"
     );
+    public static final Item DELUSION_VIAL = register(
+            new Item(new Item.Settings().maxCount(1)),
+            "delusion_vial"
+    );
     public static final Item DEFENSE_VIAL = register(
             new Item(new Item.Settings().maxCount(1)),
             "defense_vial"

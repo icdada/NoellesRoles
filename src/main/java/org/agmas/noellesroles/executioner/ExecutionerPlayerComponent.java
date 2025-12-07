@@ -1,5 +1,6 @@
 package org.agmas.noellesroles.executioner;
 
+import dev.doctor4t.trainmurdermystery.api.TMMRoles;
 import dev.doctor4t.trainmurdermystery.cca.GameWorldComponent;
 import dev.doctor4t.trainmurdermystery.game.GameConstants;
 import dev.doctor4t.trainmurdermystery.game.GameFunctions;
@@ -46,16 +47,15 @@ public class ExecutionerPlayerComponent implements AutoSyncedComponent, ServerTi
     }
 
     public void serverTick() {
-        if (target == player.getUuid()) return;
         GameWorldComponent gameWorldComponent = (GameWorldComponent) GameWorldComponent.KEY.get(player.getWorld());
         if (!gameWorldComponent.isRole(player, Noellesroles.EXECUTIONER)) return;
         PlayerEntity player1 = player.getWorld().getPlayerByUuid(target);
-        if (player1 == null || (GameFunctions.isPlayerEliminated(player1)) && !won) {
+        if (player1 == null || !gameWorldComponent.getRole(player1).isInnocent() || (GameFunctions.isPlayerEliminated(player1)) && !won) {
             List<UUID> innocentPlayers = new ArrayList<>();
             gameWorldComponent.getRoles().forEach((uuid2,role1)->{
                 PlayerEntity player2 = player.getWorld().getPlayerByUuid(uuid2);
                 if (uuid2 == null) return;
-                if (role1.isInnocent() && GameFunctions.isPlayerAliveAndSurvival(player2)) {
+                if (role1.isInnocent() && GameFunctions.isPlayerAliveAndSurvival(player2) && !role1.equals(TMMRoles.VIGILANTE)) {
                     innocentPlayers.add(uuid2);
                 }
             });

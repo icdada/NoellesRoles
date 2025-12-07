@@ -59,7 +59,9 @@
   "item.noellesroles.master_key": "Master Key",
   "item.noellesroles.fake_knife": "Fake Knife",
   "item.noellesroles.defense_vial": "Defense Vial",
-  "item.noellesroles.defense_vial.tooltip": "Right click on drink trays to use\nClears all poison applied to trays\nProtects anyone who drinks a defensed drink one extra hit of life.",
+  "item.noellesroles.defense_vial.tooltip": "Right click on food/drink trays to use\nClears all poison applied to trays\nProtects anyone who drinks a defensed drink one extra hit of life.\nInvisible to other players.",
+  "item.noellesroles.delusion_vial": "Delusion Vial",
+  "item.noellesroles.delusion_vial.tooltip": "Right click on food/drink trays to use\nCreates fakes poison, making the consumer of the poisoned item\nthink they are poisoned, but have no physical effect.",
 
   "death_reason.trainmurdermystery.gun_shot": "a bullet.",
   "death_reason.trainmurdermystery.knife_stab": "a knife!",

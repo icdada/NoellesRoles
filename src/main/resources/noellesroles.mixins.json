@@ -13,6 +13,10 @@
     "coroner.CoronerAddDeathReasonMixin",
     "executioner.ExecutionerConfirmMixin",
     "executioner.NoTargetBackfireMixin",
+    "framing.DelusionVialApplyMixin",
+    "framing.DoNotApplyFakePoisonMixin",
+    "framing.FramingPassiveIncomeMixin",
+    "framing.FramingRolesShopComponentMixin",
     "host.MasterKeyDropMixin",
     "host.MasterKeySmallDoorMixin",
     "host.MasterKeyTrainDoorMixin",
@@ -21,6 +25,7 @@
     "jester.JesterJestMixin",
     "morphling.MorphlingReseterMixin",
     "noisemaker.NoisemakerKillMixin",
+    "noisemaker.NoisemakerPlayerShopComponentMixin",
     "voodoo.VoodooVooMixin"
   ],
   "injectors": {

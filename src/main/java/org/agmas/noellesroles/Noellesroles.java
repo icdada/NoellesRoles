@@ -1,5 +1,6 @@
 package org.agmas.noellesroles;
 
+import dev.doctor4t.trainmurdermystery.TMM;
 import dev.doctor4t.trainmurdermystery.api.Role;
 import dev.doctor4t.trainmurdermystery.api.TMMRoles;
 import dev.doctor4t.trainmurdermystery.cca.GameWorldComponent;
@@ -7,6 +8,7 @@ import dev.doctor4t.trainmurdermystery.cca.PlayerMoodComponent;
 import dev.doctor4t.trainmurdermystery.cca.PlayerPsychoComponent;
 import dev.doctor4t.trainmurdermystery.cca.PlayerShopComponent;
 import dev.doctor4t.trainmurdermystery.client.gui.RoleAnnouncementTexts;
+import dev.doctor4t.trainmurdermystery.client.util.TMMItemTooltips;
 import dev.doctor4t.trainmurdermystery.entity.PlayerBodyEntity;
 import dev.doctor4t.trainmurdermystery.event.AllowPlayerDeath;
 import dev.doctor4t.trainmurdermystery.event.CanSeePoison;
@@ -15,6 +17,7 @@ import dev.doctor4t.trainmurdermystery.game.GameFunctions;
 import dev.doctor4t.trainmurdermystery.index.TMMItems;
 import dev.doctor4t.trainmurdermystery.index.TMMSounds;
 import dev.doctor4t.trainmurdermystery.util.AnnounceWelcomePayload;
+import dev.doctor4t.trainmurdermystery.util.ShopEntry;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
@@ -25,6 +28,7 @@ import net.fabricmc.loader.impl.util.log.LogCategory;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
@@ -39,6 +43,7 @@ import org.agmas.noellesroles.bartender.BartenderPlayerComponent;
 import org.agmas.noellesroles.config.NoellesRolesConfig;
 import org.agmas.noellesroles.coroner.BodyDeathReasonComponent;
 import org.agmas.noellesroles.executioner.ExecutionerPlayerComponent;
+import org.agmas.noellesroles.framing.FramingShopEntry;
 import org.agmas.noellesroles.morphling.MorphlingPlayerComponent;
 import org.agmas.noellesroles.packet.AbilityC2SPacket;
 import org.agmas.noellesroles.packet.MorphC2SPacket;
@@ -102,16 +107,25 @@ public class Noellesroles implements ModInitializer {
     public static final ArrayList<Role> VANNILA_ROLES = new ArrayList<>();
     public static final ArrayList<Identifier> VANNILA_ROLE_IDS = new ArrayList<>();
 
+    public static ArrayList<ShopEntry> FRAMING_ROLES_SHOP = new ArrayList<>();
+
     @Override
     public void onInitialize() {
         VANNILA_ROLES.add(TMMRoles.KILLER);
         VANNILA_ROLES.add(TMMRoles.VIGILANTE);
         VANNILA_ROLES.add(TMMRoles.CIVILIAN);
         VANNILA_ROLES.add(TMMRoles.LOOSE_END);
+
         VANNILA_ROLE_IDS.add(TMMRoles.LOOSE_END.identifier());
         VANNILA_ROLE_IDS.add(TMMRoles.VIGILANTE.identifier());
         VANNILA_ROLE_IDS.add(TMMRoles.CIVILIAN.identifier());
         VANNILA_ROLE_IDS.add(TMMRoles.KILLER.identifier());
+
+        FRAMING_ROLES_SHOP.add(new FramingShopEntry(TMMItems.LOCKPICK.getDefaultStack(), 50, ShopEntry.Type.TOOL));
+        FRAMING_ROLES_SHOP.add(new FramingShopEntry(ModItems.DELUSION_VIAL.getDefaultStack(), 30, ShopEntry.Type.POISON));
+        FRAMING_ROLES_SHOP.add(new FramingShopEntry(TMMItems.FIRECRACKER.getDefaultStack(), 5, ShopEntry.Type.TOOL));
+        FRAMING_ROLES_SHOP.add(new FramingShopEntry(TMMItems.NOTE.getDefaultStack(), 5, ShopEntry.Type.TOOL));
+
         NoellesRolesConfig.HANDLER.load();
         ModItems.init();
 
@@ -131,6 +145,7 @@ public class Noellesroles implements ModInitializer {
         //NoellesRolesEntities.init();
 
     }
+
 
 
     public void registerEvents() {
@@ -165,14 +180,7 @@ public class Noellesroles implements ModInitializer {
             if (role.equals(EXECUTIONER)) {
                 ExecutionerPlayerComponent executionerPlayerComponent = (ExecutionerPlayerComponent) ExecutionerPlayerComponent.KEY.get(player);
                 executionerPlayerComponent.won = false;
-                List<UUID> innocentPlayers = new ArrayList<>();
-                gameWorldComponent.getRoles().forEach((uuid,role1)->{
-                    if (role1.isInnocent()) {
-                        innocentPlayers.add(uuid);
-                    }
-                });
-                Collections.shuffle(innocentPlayers);
-                executionerPlayerComponent.target = innocentPlayers.getFirst();
+                executionerPlayerComponent.reset();
                 executionerPlayerComponent.sync();
             }
             if (role.equals(VULTURE)) {
