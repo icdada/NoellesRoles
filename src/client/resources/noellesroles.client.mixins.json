@@ -7,6 +7,7 @@
     "InstinctMixin",
     "bartender.BartenderShopMixin",
     "bartender.DefenseVialHandMixin",
+    "conductor.MasterKeyInvisibilityMixin",
     "coroner.CoronerHudMixin",
     "framing.FramingShopMixin",
     "morphling.MorphlingRendererMixin",
@@ -14,9 +15,11 @@
     "morphling.MorphlingScreenMixin",
     "noisemaker.NoisemakerShopMixin",
     "phantom.PhantomHudMixin",
+    "phantom.PhantomRattatoulieMixin",
     "recaller.RecallerHudMixin",
     "swapper.SwapperScreenMixin",
     "voodoo.VoodoScreenMixin",
+    "vulture.VultureEatenBodyMixin",
     "vulture.VultureHudMixin"
   ],
   "injectors": {
@@ -28,6 +31,7 @@
   "mixins": [
     "StoreRendererMixin",
     "bartender.DefenseVialViewMixin",
+    "conductor.MasterKeyHudMixin",
     "executioner.ExecutionerHudMixin",
     "executioner.ExecutionerMoodRenderer",
     "jester.JesterMoodRenderer"

@@ -13,7 +13,7 @@ import org.agmas.noellesroles.item.FakeKnifeItem;
 
 public class ModItems {
     public static void init() {
-        GameConstants.ITEM_COOLDOWNS.put(FAKE_REVOLVER, 10);
+        GameConstants.ITEM_COOLDOWNS.put(FAKE_REVOLVER, GameConstants.getInTicks(0,8));
     }
 
     public static final Item FAKE_KNIFE = register(

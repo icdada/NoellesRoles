@@ -27,7 +27,7 @@
 
   "announcement.goals.voodoo": "Choose another player to go down with you.",
   "announcement.role.voodoo": "Voodoo",
-  "hud.voodoo.deaths_must_be_triggered_by_another_player": "Voodoo deaths must be triggered by another player!",
+  "hud.voodoo.player_deaths_only": "Voodoo deaths must be triggered by another player!",
 
   "announcement.goals.swapper": "Swap places with other players.",
   "announcement.role.swapper": "Swapper",
@@ -82,5 +82,7 @@
   "tip.recaller.teleport": "Use %s to teleport!",
   "tip.vulture": "%s/%s bodies eaten.",
   "tip.recaller.not_enough_money": "100\uE781 required to teleport.",
-  "tip.noellesroles.cooldown": "Ability usable in %ss"
+  "tip.noellesroles.cooldown": "Ability usable in %ss",
+  "tip.master_key_invisible_count": "Master Keys look like lockpicks with less than %s people.",
+  "tip.master_key_invisible": "Master Keys look like lockpicks."
 }

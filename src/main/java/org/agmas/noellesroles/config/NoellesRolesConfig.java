@@ -32,4 +32,7 @@ public class NoellesRolesConfig {
 
     @SerialEntry(comment = "Makes voodoos act like Evil players when shot by a revolver (no backfire, no gun lost)")
     public boolean voodooShotLikeEvil = true;
+
+    @SerialEntry(comment = "How many players must be online for the Master Key to look like a master key and not a lockpick. (0 = key always looks like a lockpick, 1-6 = key always looks normal)")
+    public int playerCountToMakeConducterKeyVisible = 10;
 }

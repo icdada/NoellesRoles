@@ -45,9 +45,8 @@ public abstract class VoodoScreenMixin extends LimitedHandledScreen<PlayerScreen
             int y = (height- 32) / 2;
             int x = width / 2;
             if (!configWorldComponent.naturalVoodoosAllowed) {
-                // Text text = Text.literal("Voodoo deaths must be triggered by another player!");
-                Text name = Text.translatable("hud.voodoo.deaths_must_be_triggered_by_another_player");
-                context.drawTextWithShadow(MinecraftClient.getInstance().textRenderer, text, x - (MinecraftClient.getInstance().textRenderer.getWidth(text)/2), y + 40, Color.RED.getRGB());
+                Text name = Text.translatable("hud.voodoo.player_deaths_only");
+                context.drawTextWithShadow(MinecraftClient.getInstance().textRenderer, name, x - (MinecraftClient.getInstance().textRenderer.getWidth(name)/2), y + 40, Color.RED.getRGB());
             }
         }
     }

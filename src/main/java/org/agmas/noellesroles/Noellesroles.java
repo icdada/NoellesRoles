@@ -71,6 +71,7 @@ public class Noellesroles implements ModInitializer {
     public static Identifier PHANTOM_ID = Identifier.of(MOD_ID, "phantom");
     public static Identifier AWESOME_BINGLUS_ID = Identifier.of(MOD_ID, "awesome_binglus");
     public static Identifier SWAPPER_ID = Identifier.of(MOD_ID, "swapper");
+    public static Identifier GUESSER_ID = Identifier.of(MOD_ID, "guesser");
     public static Identifier VOODOO_ID = Identifier.of(MOD_ID, "voodoo");
     public static Identifier TRAPPER_ID = Identifier.of(MOD_ID, "trapper");
     public static Identifier CORONER_ID = Identifier.of(MOD_ID, "coroner");
@@ -101,6 +102,7 @@ public class Noellesroles implements ModInitializer {
 
     public static Role VULTURE =TMMRoles.registerRole(new Role(VULTURE_ID, new Color(181, 103, 0).getRGB(),false,false,Role.MoodType.FAKE, TMMRoles.CIVILIAN.getMaxSprintTime(),true));
     public static Role BETTER_VIGILANTE =TMMRoles.registerRole(new Role(BETTER_VIGILANTE_ID, new Color(0, 255, 255).getRGB(),true,false,Role.MoodType.REAL, TMMRoles.CIVILIAN.getMaxSprintTime(),false));
+    public static Role GUESSER =TMMRoles.registerRole(new Role(GUESSER_ID, new Color(158, 43, 25, 191).getRGB(),false,true, Role.MoodType.FAKE,Integer.MAX_VALUE,true));
 
     public static final CustomPayload.Id<MorphC2SPacket> MORPH_PACKET = MorphC2SPacket.ID;
     public static final CustomPayload.Id<SwapperC2SPacket> SWAP_PACKET = SwapperC2SPacket.ID;
