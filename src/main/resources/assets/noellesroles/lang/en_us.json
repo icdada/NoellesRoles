@@ -27,6 +27,7 @@
 
   "announcement.goals.voodoo": "Choose another player to go down with you.",
   "announcement.role.voodoo": "Voodoo",
+  "hud.voodoo.deaths_must_be_triggered_by_another_player": "Voodoo deaths must be triggered by another player!",
 
   "announcement.goals.swapper": "Swap places with other players.",
   "announcement.role.swapper": "Swapper",
@@ -42,6 +43,7 @@
 
   "announcement.goals.executioner": "Become a killer once your target dies (to a non-killer).",
   "announcement.role.executioner": "Executioner",
+  "hud.executioner.target": "Executioner Target: %s",
 
   "announcement.goals.trapper": "Check other player's roles.",
   "announcement.role.trapper": "Trapper",

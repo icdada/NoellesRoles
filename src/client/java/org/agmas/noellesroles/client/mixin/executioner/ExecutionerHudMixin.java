@@ -60,7 +60,8 @@ public abstract class ExecutionerHudMixin {
                 if (MinecraftClient.getInstance().player.networkHandler.getPlayerListEntry(executionerPlayerComponent.target) == null)
                     return;
                 context.getMatrices().push();
-                Text name = Text.literal("Executioner Target: " + MinecraftClient.getInstance().player.networkHandler.getPlayerListEntry(executionerPlayerComponent.target).getProfile().getName());
+                // Text name = Text.literal("Executioner Target: " + MinecraftClient.getInstance().player.networkHandler.getPlayerListEntry(executionerPlayerComponent.target).getProfile().getName());
+                Text name = Text.translatable("hud.executioner.target", MinecraftClient.getInstance().player.networkHandler.getPlayerListEntry(executionerPlayerComponent.target).getProfile().getName())
                 PlayerSkinDrawer.draw(context,MinecraftClient.getInstance().player.networkHandler.getPlayerListEntry(executionerPlayerComponent.target).getSkinTextures().texture(), 2, context.getScaledWindowHeight()-14,12);
                 context.drawTextWithShadow(renderer, name, 18, context.getScaledWindowHeight()-12, Colors.RED);
 
