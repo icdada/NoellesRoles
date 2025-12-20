@@ -74,8 +74,12 @@ public abstract class InstinctMixin {
                     cir.cancel();
                 }
             }
+            if (gameWorldComponent.isRole(MinecraftClient.getInstance().player, Noellesroles.JESTER) && WatheClient.isInstinctEnabled()) {
+                    cir.setReturnValue(Color.PINK.getRGB());
+                    cir.cancel();
+            }
             if (!((PlayerEntity)target).isSpectator() && WatheClient.isInstinctEnabled()) {
-                if (gameWorldComponent.isRole((PlayerEntity) target, Noellesroles.MIMIC) && WatheClient.isKiller() && WatheClient.isPlayerAliveAndInSurvival()) {
+                if (gameWorldComponent.isRole((PlayerEntity) target, Noellesroles.MIMIC) && WatheClient.isKiller()  && WatheClient.isPlayerAliveAndInSurvival()) {
                     cir.setReturnValue(MathHelper.hsvToRgb(0.0F, 1.0F, 0.6F));
                     cir.cancel();
                 }

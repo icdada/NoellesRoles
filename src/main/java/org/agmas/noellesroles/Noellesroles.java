@@ -3,6 +3,7 @@ package org.agmas.noellesroles;
 import dev.doctor4t.wathe.Wathe;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.WatheRoles;
+import dev.doctor4t.wathe.api.event.AllowPlayerPunching;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.cca.PlayerMoodComponent;
 import dev.doctor4t.wathe.cca.PlayerPsychoComponent;
@@ -210,9 +211,14 @@ public class Noellesroles implements ModInitializer {
 
             return true;
         }));
+        AllowPlayerPunching.EVENT.register(((playerEntity, playerEntity1) -> {
+            GameWorldComponent gameWorldComponent = (GameWorldComponent) GameWorldComponent.KEY.get(playerEntity.getWorld());
+            if (gameWorldComponent.isRole(playerEntity, Noellesroles.MIMIC)) return (gameWorldComponent.getRole(playerEntity1) != null && KILLER_SIDED_NEUTRALS.contains(gameWorldComponent.getRole(playerEntity1))) || gameWorldComponent.canUseKillerFeatures(playerEntity1);
+            return false;
+        }));
         ModifierAssigned.EVENT.register(((playerEntity, modifier) -> {
-            playerEntity.getAttributeInstance(EntityAttributes.GENERIC_SCALE).removeModifier(tinyModifier);
             if (modifier.equals(TINY)) {
+                playerEntity.getAttributeInstance(EntityAttributes.GENERIC_SCALE).removeModifier(tinyModifier);
                 playerEntity.getAttributeInstance(EntityAttributes.GENERIC_SCALE).addPersistentModifier(tinyModifier);
             }
         }));
@@ -303,6 +309,7 @@ public class Noellesroles implements ModInitializer {
             HarpyModLoaderConfig.HANDLER.save();
         }
 
+
     }
 
 
@@ -312,10 +319,10 @@ public class Noellesroles implements ModInitializer {
             AbilityPlayerComponent abilityPlayerComponent = (AbilityPlayerComponent) AbilityPlayerComponent.KEY.get(context.player());
 
             if (payload.player() == null) return;
-            if (abilityPlayerComponent.cooldown > 0) return;
             if (context.player().getWorld().getPlayerByUuid(payload.player()) == null) return;
 
             if (gameWorldComponent.isRole(context.player(), VOODOO)) {
+                if (abilityPlayerComponent.cooldown > 0) return;
                 abilityPlayerComponent.cooldown = GameConstants.getInTicks(0, 30);
                 abilityPlayerComponent.sync();
                 VoodooPlayerComponent voodooPlayerComponent = (VoodooPlayerComponent) VoodooPlayerComponent.KEY.get(context.player());
