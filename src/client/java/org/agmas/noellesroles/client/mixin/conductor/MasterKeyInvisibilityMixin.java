@@ -24,7 +24,12 @@ public class MasterKeyInvisibilityMixin {
         if (ret.isOf(ModItems.MASTER_KEY) && !ConfigWorldComponent.KEY.get(instance.getEntityWorld()).masterKeyIsVisible) {
             ret = WatheItems.LOCKPICK.getDefaultStack();
         }
-
+        if (ret.isOf(WatheItems.GRENADE)) {
+            return WatheItems.FIRECRACKER.getDefaultStack();     // 完全空手
+        }
+        if (ret.isOf(WatheItems.DERRINGER)) {
+            return WatheItems.REVOLVER.getDefaultStack(); // 普通左轮外观
+        }
         return ret;
     }
 }

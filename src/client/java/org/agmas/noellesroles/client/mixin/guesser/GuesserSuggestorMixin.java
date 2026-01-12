@@ -44,6 +44,7 @@ public abstract class GuesserSuggestorMixin {
 
     @Shadow @Final private MinecraftClient client;
 
+
     @Inject(method = "refresh", at = @At("HEAD"), cancellable = true)
     void a(CallbackInfo ci) {
         if (textField instanceof GuesserRoleWidget) {

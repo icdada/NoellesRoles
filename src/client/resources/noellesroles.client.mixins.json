@@ -7,6 +7,7 @@
     "InstinctMixin",
     "bartender.BartenderShopMixin",
     "bartender.DefenseVialHandMixin",
+    "bettervigilante.BetterVigilanteShopMixin",
     "chameleon.ChameleonCapeMixin",
     "chameleon.ChameleonShadowMixin",
     "chameleon.ChameleonSkinArmMixin",
@@ -29,6 +30,7 @@
     "trapper.TrapperInvisPaperMixin",
     "trapper.TrapperShopMixin",
     "voodoo.VoodoScreenMixin",
+    "voodoo.VoodoShopMixin",
     "vulture.VultureEatenBodyMixin",
     "vulture.VultureHudMixin"
   ],

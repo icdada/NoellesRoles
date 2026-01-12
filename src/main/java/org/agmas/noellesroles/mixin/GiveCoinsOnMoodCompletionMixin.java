@@ -15,6 +15,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.Random;
+
 @Mixin(PlayerMoodComponent.class)
 public abstract class GiveCoinsOnMoodCompletionMixin {
 
@@ -30,7 +32,8 @@ public abstract class GiveCoinsOnMoodCompletionMixin {
                 if (gameWorldComponent.getRole(player).getMoodType().equals(Role.MoodType.REAL)) {
                     if (gameWorldComponent.isRole(player, Noellesroles.MIMIC)) return;
                     PlayerShopComponent shopComponent = PlayerShopComponent.KEY.get(player);
-                    shopComponent.addToBalance(50);
+                    int reward = player.getRandom().nextInt(31) + 50;
+                    shopComponent.addToBalance(reward);
                 }
             }
         }

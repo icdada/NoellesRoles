@@ -3,6 +3,7 @@ package org.agmas.noellesroles.mixin.executioner;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
+import dev.doctor4t.wathe.cca.PlayerShopComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
 import dev.doctor4t.wathe.util.GunShootPayload;
 import net.minecraft.entity.player.PlayerEntity;
@@ -29,6 +30,9 @@ public class NoTargetBackfireMixin {
             }
         }
         if (gameWorldComponent.isRole(player, Noellesroles.VOODOO) && NoellesRolesConfig.HANDLER.instance().voodooShotLikeEvil) {
+            return false;
+        }
+        if (gameWorldComponent.isRole(player, Noellesroles.BETTER_VIGILANTE)) {
             return false;
         }
         return original.call(instance,player);

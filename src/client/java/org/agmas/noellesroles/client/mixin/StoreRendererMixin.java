@@ -26,8 +26,10 @@ public abstract class StoreRendererMixin {
         if (((GameWorldComponent)GameWorldComponent.KEY.get(player.getWorld())).isRole(player.getUuid(), Noellesroles.BARTENDER)
         || ((GameWorldComponent)GameWorldComponent.KEY.get(player.getWorld())).isRole(player.getUuid(), Noellesroles.RECALLER)
         || ((GameWorldComponent)GameWorldComponent.KEY.get(player.getWorld())).isRole(player.getUuid(), Noellesroles.EXECUTIONER)
-        || ((GameWorldComponent)GameWorldComponent.KEY.get(player.getWorld())).isRole(player.getUuid(), Noellesroles.JESTER)
+                || ((GameWorldComponent)GameWorldComponent.KEY.get(player.getWorld())).isRole(player.getUuid(), Noellesroles.JESTER)
+                || ((GameWorldComponent)GameWorldComponent.KEY.get(player.getWorld())).isRole(player.getUuid(), Noellesroles.VOODOO)
         || ((GameWorldComponent)GameWorldComponent.KEY.get(player.getWorld())).isRole(player.getUuid(), Noellesroles.NOISEMAKER)
+        || ((GameWorldComponent)GameWorldComponent.KEY.get(player.getWorld())).isRole(player.getUuid(), Noellesroles.BETTER_VIGILANTE)
         || ((GameWorldComponent)GameWorldComponent.KEY.get(player.getWorld())).isRole(player,Noellesroles.MIMIC)
         || ((GameWorldComponent)GameWorldComponent.KEY.get(player.getWorld())).isRole(player,Noellesroles.TRAPPER)) {
             int balance = ((PlayerShopComponent)PlayerShopComponent.KEY.get(player)).balance;

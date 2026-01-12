@@ -2,6 +2,7 @@ package org.agmas.noellesroles.mixin.voodoo;
 
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.cca.PlayerPsychoComponent;
+import dev.doctor4t.wathe.cca.PlayerShopComponent;
 import dev.doctor4t.wathe.game.GameConstants;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.entity.player.PlayerEntity;
@@ -31,6 +32,9 @@ public abstract class VoodooVooMixin {
                         }
                     }
                 }
+            }else if (gameWorldComponent.isRole(victim, Noellesroles.BETTER_VIGILANTE)) {
+                PlayerShopComponent playerShopComponent = (PlayerShopComponent) PlayerShopComponent.KEY.get(killer);
+                playerShopComponent.setBalance(200);
             }
         }
     }

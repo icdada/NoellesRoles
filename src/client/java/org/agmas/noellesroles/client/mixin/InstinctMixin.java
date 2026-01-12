@@ -6,6 +6,10 @@ import dev.doctor4t.wathe.api.WatheRoles;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.cca.PlayerPoisonComponent;
 import dev.doctor4t.wathe.client.WatheClient;
+import dev.doctor4t.wathe.entity.PlayerBodyEntity;
+import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.entity.ItemEntity;
+import org.agmas.noellesroles.coroner.BodyDeathReasonComponent;
 import dev.doctor4t.wathe.client.gui.RoundTextRenderer;
 import dev.doctor4t.wathe.game.GameFunctions;
 import dev.doctor4t.wathe.util.AnnounceWelcomePayload;
@@ -34,23 +38,38 @@ import java.awt.*;
 public abstract class InstinctMixin {
 
 
-    @Shadow public static KeyBinding instinctKeybind;
 
+    // 注入到isInstinctEnabled方法头部，覆盖原有逻辑
     @Inject(method = "isInstinctEnabled", at = @At("HEAD"), cancellable = true)
-    private static void b(CallbackInfoReturnable<Boolean> cir) {
-        GameWorldComponent gameWorldComponent = (GameWorldComponent) GameWorldComponent.KEY.get(MinecraftClient.getInstance().player.getWorld());
-        if (gameWorldComponent.isRole(MinecraftClient.getInstance().player, Noellesroles.JESTER)) {
-            if (instinctKeybind.isPressed()) {
-                cir.setReturnValue(true);
-                cir.cancel();
-            }
+    private static void unlockInstinctForCustomRoles(CallbackInfoReturnable<Boolean> cir) {
+        // 1. 安全校验：避免空指针（客户端玩家/世界为空的情况）
+        MinecraftClient client = MinecraftClient.getInstance();
+        ClientPlayerEntity player = client.player;
+
+        // 2. 获取游戏世界组件
+        GameWorldComponent gameWorldComponent = (GameWorldComponent) GameWorldComponent.KEY.get(player.getWorld());
+
+        // 3. 判定自定义角色：JESTER / BETTER_VIGILANTE
+        boolean isJester = gameWorldComponent.isRole(player, Noellesroles.JESTER);
+        boolean isBetterVigilante = gameWorldComponent.isRole(player, Noellesroles.BETTER_VIGILANTE);
+
+        // 4. 角色匹配 + 本能按键按下 → 强制启用本能
+        if ((isJester || isBetterVigilante || WatheClient.gameComponent.isRunning()) && WatheClient.instinctKeybind.isPressed()) {
+            cir.setReturnValue(true);  // 覆盖返回值为true
+            cir.cancel();              // 取消原有逻辑执行
         }
     }
 
+
     @Inject(method = "getInstinctHighlight", at = @At("HEAD"), cancellable = true)
     private static void getInstinctHighlightColor(Entity target, CallbackInfoReturnable<Integer> cir) {
+
         GameWorldComponent gameWorldComponent = (GameWorldComponent) GameWorldComponent.KEY.get(MinecraftClient.getInstance().player.getWorld());
         if (target instanceof PlayerEntity) {
+            if (WatheClient.gameComponent.isRunning() && WatheClient.instinctKeybind.isPressed()){
+                cir.setReturnValue(Color.GREEN.getRGB());
+                cir.cancel();
+            }
             if (!((PlayerEntity)target).isSpectator()) {
                 BartenderPlayerComponent bartenderPlayerComponent = BartenderPlayerComponent.KEY.get((PlayerEntity) target);
                 PlayerPoisonComponent playerPoisonComponent =  PlayerPoisonComponent.KEY.get((PlayerEntity) target);
@@ -66,7 +85,38 @@ public abstract class InstinctMixin {
                 }
             }
         }
-        if (target instanceof PlayerEntity) {
+        if (target instanceof ItemEntity) {
+            if (gameWorldComponent.isRole(MinecraftClient.getInstance().player, Noellesroles.CONDUCTOR)){
+                cir.setReturnValue(0xDB9D00);
+                cir.cancel();
+            }
+
+        }
+        if (target instanceof PlayerBodyEntity body) {
+            BodyDeathReasonComponent comp = BodyDeathReasonComponent.KEY.get(body);
+
+            if (gameWorldComponent.isRole(MinecraftClient.getInstance().player, Noellesroles.VULTURE)
+                    && !comp.vultured) {
+                cir.setReturnValue(Color.YELLOW.getRGB());
+                cir.cancel();
+                return;
+            }
+
+            // 验尸官：开本能 + 未被吃过 → 白色
+            if (gameWorldComponent.isRole(MinecraftClient.getInstance().player, Noellesroles.CORONER)
+                    && !comp.vultured) {
+                cir.setReturnValue(Color.GRAY.getRGB());
+                cir.cancel();
+                return;
+            }
+        }
+
+        if (target instanceof PlayerEntity player) {
+            if (gameWorldComponent.isRole(player, Noellesroles.BETTER_VIGILANTE)&& WatheClient.isInstinctEnabled() && WatheClient.isKiller()) {
+                cir.setReturnValue(Color.BLUE.getRGB());
+                cir.cancel();
+                return;
+            }
             if (gameWorldComponent.isRole(MinecraftClient.getInstance().player, Noellesroles.EXECUTIONER)) {
                 ExecutionerPlayerComponent executionerPlayerComponent = (ExecutionerPlayerComponent) ExecutionerPlayerComponent.KEY.get((PlayerEntity) MinecraftClient.getInstance().player);
                 if (executionerPlayerComponent.target.equals(target.getUuid())) {
@@ -77,6 +127,10 @@ public abstract class InstinctMixin {
             if (gameWorldComponent.isRole(MinecraftClient.getInstance().player, Noellesroles.JESTER) && WatheClient.isInstinctEnabled()) {
                     cir.setReturnValue(Color.PINK.getRGB());
                     cir.cancel();
+            }
+            if (gameWorldComponent.isRole(MinecraftClient.getInstance().player, Noellesroles.BETTER_VIGILANTE) && WatheClient.isInstinctEnabled()) {
+                cir.setReturnValue(Color.GREEN.getRGB());
+                cir.cancel();
             }
             if (!((PlayerEntity)target).isSpectator() && WatheClient.isInstinctEnabled()) {
                 if (gameWorldComponent.isRole((PlayerEntity) target, Noellesroles.MIMIC) && WatheClient.isKiller()  && WatheClient.isPlayerAliveAndInSurvival()) {

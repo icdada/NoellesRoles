@@ -24,6 +24,7 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 
 public class FakeKnifeItem extends Item {
+
     public FakeKnifeItem(Item.Settings settings) {
         super(settings);
     }

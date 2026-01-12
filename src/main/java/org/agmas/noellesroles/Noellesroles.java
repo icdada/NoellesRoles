@@ -116,7 +116,7 @@ public class Noellesroles implements ModInitializer {
     public static Role RECALLER = WatheRoles.registerRole(new Role(RECALLER_ID, new Color(158, 255, 255).getRGB(),true,false,Role.MoodType.REAL, WatheRoles.CIVILIAN.getMaxSprintTime(),false));
 
     public static Role VULTURE =WatheRoles.registerRole(new Role(VULTURE_ID, new Color(181, 103, 0).getRGB(),false,false,Role.MoodType.FAKE, WatheRoles.CIVILIAN.getMaxSprintTime(),true));
-    public static Role BETTER_VIGILANTE =WatheRoles.registerRole(new Role(BETTER_VIGILANTE_ID, new Color(0, 255, 255).getRGB(),true,false,Role.MoodType.REAL, WatheRoles.CIVILIAN.getMaxSprintTime(),false));
+    public static Role BETTER_VIGILANTE =WatheRoles.registerRole(new Role(BETTER_VIGILANTE_ID, new Color(0, 255, 255).getRGB(),true,false,Role.MoodType.REAL, WatheRoles.CIVILIAN.getMaxSprintTime(),true));
     //public static Role GUESSER =WatheRoles.registerRole(new Role(GUESSER_ID, new Color(158, 43, 25, 191).getRGB(),false,true, Role.MoodType.FAKE,Integer.MAX_VALUE,true));
 
     public static Role MIMIC = WatheRoles.registerRole(new Role(MIMIC_ID, new Color(255, 137, 155).getRGB(),true,false,Role.MoodType.REAL, WatheRoles.CIVILIAN.getMaxSprintTime(),false));
@@ -280,17 +280,20 @@ public class Noellesroles implements ModInitializer {
                 vulturePlayerComponent.sync();
             }
             if (role.equals(BETTER_VIGILANTE)) {
-                player.giveItemStack(WatheItems.GRENADE.getDefaultStack());
+                player.giveItemStack(WatheItems.CROWBAR.getDefaultStack());
+                player.giveItemStack(WatheItems.DERRINGER.getDefaultStack());
             }
             if (role.equals(MIMIC)) {
                 player.giveItemStack(ModItems.FAKE_KNIFE.getDefaultStack());
             }
             if (role.equals(JESTER)) {
+                player.giveItemStack(WatheItems.CROWBAR.getDefaultStack());
                 player.giveItemStack(ModItems.FAKE_KNIFE.getDefaultStack());
                 player.giveItemStack(ModItems.FAKE_REVOLVER.getDefaultStack());
             }
             if (role.equals(CONDUCTOR)) {
                 player.giveItemStack(ModItems.MASTER_KEY.getDefaultStack());
+                player.giveItemStack(WatheItems.LOCKPICK.getDefaultStack());
             }
             if (role.equals(AWESOME_BINGLUS)) {
                 player.giveItemStack(WatheItems.NOTE.getDefaultStack());
@@ -434,7 +437,9 @@ public class Noellesroles implements ModInitializer {
         ServerPlayNetworking.registerGlobalReceiver(Noellesroles.GUESS_PACKET, (payload, context) -> {
             GameWorldComponent gameWorldComponent = (GameWorldComponent) GameWorldComponent.KEY.get(context.player().getWorld());
             WorldModifierComponent worldModifierComponent = WorldModifierComponent.KEY.get(context.player().getWorld());
+            boolean Cd = true;
             if (worldModifierComponent.isRole(context.player(), GUESSER)) {
+
                 if (payload.player() != null) {
                     if (context.player().getWorld().getPlayerByUuid(payload.player()) != null) {
                         ServerPlayerEntity target = (ServerPlayerEntity) context.player().getWorld().getPlayerByUuid(payload.player());
@@ -451,6 +456,11 @@ public class Noellesroles implements ModInitializer {
                                     if (gameWorldComponent.getRole(target).canUseKiller()) wrong = true;
                                 }
                                 if (Harpymodloader.SPECIAL_ROLES.contains(gameWorldComponent.getRole(target))) wrong = true;
+                                if (gameWorldComponent.isRole(target,Noellesroles.BETTER_VIGILANTE)) {
+                                    wrong = true;
+                                    Cd = false;
+                                }
+
                             }
                             if (!wrong) {
                                 player.playSoundToPlayer(SoundEvents.ENTITY_PIG_DEATH, SoundCategory.MASTER, 1, 1);
@@ -473,9 +483,11 @@ public class Noellesroles implements ModInitializer {
                         }
                     }
                 }
-                AbilityPlayerComponent abilityPlayerComponent = (AbilityPlayerComponent) AbilityPlayerComponent.KEY.get(context.player());
-                abilityPlayerComponent.cooldown = GameConstants.getInTicks(2, 0);
-                abilityPlayerComponent.sync();
+                if (Cd) {
+                    AbilityPlayerComponent abilityPlayerComponent = (AbilityPlayerComponent) AbilityPlayerComponent.KEY.get(context.player());
+                    abilityPlayerComponent.cooldown = GameConstants.getInTicks(2, 0);
+                    abilityPlayerComponent.sync();
+                }
             }
         });
 

@@ -50,7 +50,7 @@ public abstract class CoronerHudMixin {
     private static void coronerRoleNameRenderer(TextRenderer renderer, ClientPlayerEntity player, DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
         GameWorldComponent gameWorldComponent = (GameWorldComponent) GameWorldComponent.KEY.get(player.getWorld());
         if (NoellesrolesClient.targetBody != null) {
-            if (gameWorldComponent.isRole(MinecraftClient.getInstance().player, Noellesroles.CORONER) || gameWorldComponent.isRole(MinecraftClient.getInstance().player, Noellesroles.VULTURE) || WatheClient.isPlayerSpectatingOrCreative()) {
+            if (gameWorldComponent.isRole(MinecraftClient.getInstance().player, Noellesroles.CORONER) || gameWorldComponent.isRole(MinecraftClient.getInstance().player, Noellesroles.VULTURE) || WorldModifierComponent.KEY.get(MinecraftClient.getInstance().player.getWorld()).isModifier(player.getUuid(), Noellesroles.GRAVEROBBER) || WatheClient.isPlayerSpectatingOrCreative()) {
 
                 context.getMatrices().push();
                 context.getMatrices().translate((float)context.getScaledWindowWidth() / 2.0F, (float)context.getScaledWindowHeight() / 2.0F + 6.0F, 0.0F);

@@ -40,8 +40,8 @@ public abstract class BartenderPlayerShopComponentMixin {
         GameWorldComponent gameWorldComponent = GameWorldComponent.KEY.get(player.getWorld());
         if (gameWorldComponent.isRole(player,Noellesroles.BARTENDER)) {
             if (index == 0) {
-                if (balance >= 100) {
-                    this.balance -= 100;
+                if (balance >= 200) {
+                    this.balance -= 200;
                     sync();
                     player.giveItemStack(ModItems.DEFENSE_VIAL.getDefaultStack());
                     PlayerEntity var6 = this.player;

@@ -35,7 +35,7 @@ public abstract class BartenderShopMixin extends LimitedHandledScreen<PlayerScre
         GameWorldComponent gameWorldComponent = (GameWorldComponent) GameWorldComponent.KEY.get(player.getWorld());
         if (gameWorldComponent.isRole(player,Noellesroles.BARTENDER)) {
             List<ShopEntry> entries = new ArrayList<>();
-            entries.add(new ShopEntry(ModItems.DEFENSE_VIAL.getDefaultStack(), 100, ShopEntry.Type.POISON));
+            entries.add(new ShopEntry(ModItems.DEFENSE_VIAL.getDefaultStack(), 200, ShopEntry.Type.POISON));
             int apart = 36;
             int x = width / 2 - (entries.size()) * apart / 2 + 9;
             int shouldBeY = (((LimitedInventoryScreen)(Object)this).height - 32) / 2;

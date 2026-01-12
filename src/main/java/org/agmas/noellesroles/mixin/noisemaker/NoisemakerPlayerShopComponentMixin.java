@@ -33,8 +33,8 @@ public abstract class NoisemakerPlayerShopComponentMixin {
         GameWorldComponent gameWorldComponent = GameWorldComponent.KEY.get(player.getWorld());
         if (gameWorldComponent.isRole(player,Noellesroles.NOISEMAKER)) {
             if (index == 0) {
-                if (balance >= 75) {
-                    this.balance -= 75;
+                if (balance >= 5) {
+                    this.balance -= 5;
                     sync();
                     player.giveItemStack(WatheItems.FIRECRACKER.getDefaultStack());
                     PlayerEntity var6 = this.player;

@@ -57,15 +57,15 @@
   "announcement.goals.noellesroles.mimic": "杀手会误以为你是同伙，但你所属平民阵营。",
   "announcement.role.noellesroles.mimic": "模仿者",
 
-  "announcement.modifier.noellesroles.tiny": "矮子",
+  "announcement.modifier.noellesroles.tiny": "未成年",
   "announcement.modifier.noellesroles.chameleon": "变色龙",
   "announcement.modifier.noellesroles.guesser": "猜测者",
   "announcement.modifier.noellesroles.graverobber": "盗墓贼",
   "announcement.modifier.noellesroles.feather": "轻灵",
 
 
-  "announcement.goals.noellesroles.better_vigilante": "呃——————",
-  "announcement.role.noellesroles.better_vigilante": "更好的义警",
+  "announcement.goals.noellesroles.better_vigilante": "你是因太过退役义警，别人无法看见你的荣耀，你尝尝为此头疼，以致疯狂。",
+  "announcement.role.noellesroles.better_vigilante": "更小脑的义警",
 
   "announcement.goals.noellesroles.vulture": "吃掉足够的尸体后变成杀手！",
   "announcement.role.noellesroles.vulture": "秃鹫",

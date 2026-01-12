@@ -11,6 +11,7 @@
     "bartender.CocktailItemMixin",
     "bartender.DefenseVialApplyMixin",
     "bartender.PoisonToHealsMixin",
+    "bettervigilante.BetterVigilantePlayerShopComponentMixin",
     "coroner.CoronerAddDeathReasonMixin",
     "executioner.ExecutionerConfirmMixin",
     "executioner.ExecutionerGunPickupMixin",
@@ -29,6 +30,7 @@
     "noisemaker.NoisemakerKillMixin",
     "noisemaker.NoisemakerPlayerShopComponentMixin",
     "trapper.TrapperPlayerShopComponentMixin",
+    "voodoo.VoodooShopComponentMixin",
     "voodoo.VoodooVooMixin"
   ],
   "injectors": {
