@@ -41,4 +41,14 @@ public class NoellesRolesConfig {
 
     @SerialEntry(comment = "How many players must be online for the Master Key to look like a master key and not a lockpick. (0 = key always looks like a lockpick, 1-6 = key always looks normal)")
     public int playerCountToMakeConducterKeyVisible = 10;
+
+
+    @SerialEntry(comment = "How many defense vials can be bought by one bartender in a round. (0 = no limit)")
+    public int maximumDefenseVials = 0;
+
+    @SerialEntry(comment = "Price of the Bartender's Defense Vial.")
+    public int defenseVialPrice = 100;
+
+    @SerialEntry(comment = "Price of the Trapper's Role Mine.")
+    public int roleMinePrice = 100;
 }
