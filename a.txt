@@ -1,0 +1,102 @@
+package github.aqumpusaxy.watheplus.client;
+
+import com.mojang.blaze3d.systems.RenderSystem;
+import dev.doctor4t.wathe.api.Role;
+import dev.doctor4t.wathe.cca.GameWorldComponent;
+import github.aqumpusaxy.watheplus.reflect.PlayerSprintingTicksAccessor;
+import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.util.Window;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.Identifier;
+
+import java.lang.reflect.Field;
+
+public class WatheplusClient implements ClientModInitializer {
+    private static Field sprintingTicksField;
+
+
+    public static int getSprintingTicks(PlayerEntity player) {
+        if (sprintingTicksField == null) {
+            return 0;
+        } else {
+            try {
+                return sprintingTicksField.getInt(player);
+            } catch (IllegalAccessException var2) {
+                return 0;
+            }
+        }
+    }
+
+    static {
+        try {
+            sprintingTicksField = PlayerEntity.class.getDeclaredField("sprintingTicks");
+            sprintingTicksField.setAccessible(true);
+        } catch (NoSuchFieldException var1) {
+            sprintingTicksField = null;
+        }
+
+    }
+    /* ---------------- 常量 ---------------- */
+    private static final int BAR_TEX_WIDTH  = 170;
+    private static final int BAR_TEX_HEIGHT = 11;
+    private static final int BAR_COLOR      = 0xFF00CC00;          // 绿色
+    private static final Identifier BAR_TEX =
+            Identifier.of("watheplus", "textures/gui/stamina_bar.png");
+
+    /* ---------------- 入口 ---------------- */
+    @Override
+    public void onInitializeClient() {
+        HudRenderCallback.EVENT.register((drawContext, renderTickCounter) -> {
+            MinecraftClient client = MinecraftClient.getInstance();
+            PlayerEntity player = client.player;
+            if (player == null) return;
+            if (player.isSpectator() || player.isCreative()) return;
+
+            Role role = GameWorldComponent.KEY.get(player.getWorld()).getRole(player);
+            if (role == null) return;
+
+            int maxTicks = role.getMaxSprintTime();
+            if (maxTicks <= 0) return;          // 无限冲刺
+            int currentTicks = getSprintingTicks(player);
+            float ratio = (float) currentTicks / maxTicks;
+            if (ratio >= 1.0F) return;          // 满耐力不显示
+
+            Window window = client.getWindow();
+            int screenW = window.getScaledWidth();
+            int screenH = window.getScaledHeight();
+
+            int left = (screenW - BAR_TEX_WIDTH) / 2;
+            int top  = screenH - 36;                       // 距底 22+14
+            int fillWidth = Math.round(BAR_TEX_WIDTH * ratio);
+
+            /* 红→绿渐变 */
+            int barColor = blendRedGreen(ratio);
+
+            /* 填充条 */
+            drawContext.fill(left, top,
+                    left + fillWidth, top + BAR_TEX_HEIGHT,
+                    barColor);
+
+            /* 边框纹理 */
+            RenderSystem.setShaderTexture(0, BAR_TEX);
+            drawContext.drawTexture(BAR_TEX,
+                    left, top,
+                    0, 0,
+                    BAR_TEX_WIDTH, BAR_TEX_HEIGHT,
+                    BAR_TEX_WIDTH, BAR_TEX_HEIGHT);
+        });
+    }
+    /**
+     * 0.0 返回纯红 0xFFFF0000，1.0 返回纯绿 0xFF00CC00
+     */
+    private static int blendRedGreen(float ratio) {
+        int red   = (int) ((1.0F - ratio) * 255);
+        int green = (int) (ratio * 255);
+        int blue  = 0;
+        return 0xFF << 24 | red << 16 | green << 8 | blue;   // ARGB
+    }
+    /* ---------------- 渲染 ---------------- */
+}//
