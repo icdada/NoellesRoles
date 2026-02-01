@@ -23,7 +23,9 @@ public class NoellesRolesConfig {
     public boolean insanePlayersSeeMorphs = true;
     @SerialEntry(comment = "Allows the shitpost roles to retain their disable/enable state after a server restart")
     public boolean shitpostRoles = false;
-
+    @SerialEntry(comment = "The fixed armor value for the Bartender role. Set to 0 to disable.")
+    public int bartenderMaxArmorSet = 3; // 酒保的护甲永远是 20
+    public boolean bartender = false; // 酒保的护甲永远是 20
     @SerialEntry(comment = "Starting cooldown (in ticks)")
     public int generalCooldownTicks = GameConstants.getInTicks(0,30);
 
@@ -41,4 +43,6 @@ public class NoellesRolesConfig {
 
     @SerialEntry(comment = "How many players must be online for the Master Key to look like a master key and not a lockpick. (0 = key always looks like a lockpick, 1-6 = key always looks normal)")
     public int playerCountToMakeConducterKeyVisible = 10;
+    @SerialEntry(comment = "Maximum number of better_vigilante officers allowed in the game.")
+    public int maxPoliceCount = 1;
 }

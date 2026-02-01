@@ -10,9 +10,12 @@ import dev.doctor4t.wathe.util.AnnounceWelcomePayload;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.loader.impl.util.log.Log;
 import net.fabricmc.loader.impl.util.log.LogCategory;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
+import net.minecraft.world.GameMode;
 import org.agmas.harpymodloader.Harpymodloader;
 import org.agmas.harpymodloader.config.HarpyModLoaderConfig;
 import org.agmas.harpymodloader.events.ModdedRoleAssigned;
@@ -47,7 +50,15 @@ public class ExecutionerConfirmMixin {
                 shuffledKillerRoles.removeIf(role -> Harpymodloader.VANNILA_ROLES.contains(role) || !role.canUseKiller() || HarpyModLoaderConfig.HANDLER.instance().disabled.contains(role.identifier().getPath()));
                 if (shuffledKillerRoles.isEmpty()) shuffledKillerRoles.add(WatheRoles.KILLER);
                 Collections.shuffle(shuffledKillerRoles);
-
+                if (executioner.isSpectator()) {
+                    ServerPlayerEntity player = (ServerPlayerEntity) executioner;
+                    player.addStatusEffect(new StatusEffectInstance(
+                            StatusEffects.INVISIBILITY,
+                            30 * 20, 0, false, false, false
+                    ));
+                    player.teleport(victim.getX(),victim.getY(),victim.getZ(),false);
+                    player.changeGameMode(GameMode.ADVENTURE);
+                }
                 gameWorldComponent.addRole(executioner,shuffledKillerRoles.getFirst());
                 ModdedRoleAssigned.EVENT.invoker().assignModdedRole(executioner,shuffledKillerRoles.getFirst());
                 playerShopComponent.setBalance(200);

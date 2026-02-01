@@ -32,7 +32,8 @@
     "voodoo.VoodoScreenMixin",
     "voodoo.VoodoShopMixin",
     "vulture.VultureEatenBodyMixin",
-    "vulture.VultureHudMixin"
+    "vulture.VultureHudMixin",
+    "KeyBindingMixin"
   ],
   "injectors": {
     "defaultRequire": 1

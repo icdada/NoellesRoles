@@ -4,6 +4,8 @@ import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.cca.PlayerShopComponent;
 import dev.doctor4t.wathe.index.WatheItems;
 import dev.doctor4t.wathe.index.WatheSounds;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.packet.s2c.play.PlaySoundS2CPacket;
 import net.minecraft.registry.Registries;
@@ -43,13 +45,27 @@ public abstract class NoisemakerPlayerShopComponentMixin {
                         player.networkHandler.sendPacket(new PlaySoundS2CPacket(Registries.SOUND_EVENT.getEntry(WatheSounds.UI_SHOP_BUY), SoundCategory.PLAYERS, player.getX(), player.getY(), player.getZ(), 1.0F, 0.9F + this.player.getRandom().nextFloat() * 0.2F, player.getRandom().nextLong()));
                     }
                 } else {
-                    this.player.sendMessage(Text.literal("Purchase Failed").formatted(Formatting.DARK_RED), true);
+                    this.player.sendMessage(Text.literal("购买失败").formatted(Formatting.DARK_RED), true);
                     PlayerEntity var4 = this.player;
                     if (var4 instanceof ServerPlayerEntity) {
                         ServerPlayerEntity player = (ServerPlayerEntity) var4;
                         player.networkHandler.sendPacket(new PlaySoundS2CPacket(Registries.SOUND_EVENT.getEntry(WatheSounds.UI_SHOP_BUY_FAIL), SoundCategory.PLAYERS, player.getX(), player.getY(), player.getZ(), 1.0F, 0.9F + this.player.getRandom().nextFloat() * 0.2F, player.getRandom().nextLong()));
                     }
                 }
+            }
+            if (index == 1) {                                    // 第二格商品
+                int price = 100;                                  // 想卖多少钱自己改
+                if (balance < price) {
+                    this.player.sendMessage(Text.literal("金币不足").formatted(Formatting.RED),true);
+                }
+                balance -= price;
+                sync();
+
+                // 给玩家 30 秒发光
+                player.addStatusEffect(
+                        new StatusEffectInstance(StatusEffects.GLOWING, 20 * 30, 0, false, false)
+                );
+
             }
             ci.cancel();
         }

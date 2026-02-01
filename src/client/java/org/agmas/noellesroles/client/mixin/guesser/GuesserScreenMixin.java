@@ -43,13 +43,13 @@ public abstract class GuesserScreenMixin extends LimitedHandledScreen<PlayerScre
         GameWorldComponent gameWorldComponent = (GameWorldComponent) GameWorldComponent.KEY.get(player.getWorld());
         WorldModifierComponent worldModifierComponent = WorldModifierComponent.KEY.get(player.getWorld());
         GuesserPlayerWidget.selectedPlayer = null;
-        if (worldModifierComponent.isRole(player,Noellesroles.GUESSER)) {
+        if (worldModifierComponent.isModifier(player,Noellesroles.GUESSER)) {
             GuesserRoleWidget.stopClosing = false;
             List<UUID> entries = new ArrayList<>(MinecraftClient.getInstance().player.networkHandler.getPlayerUuids());
             if (!gameWorldComponent.isInnocent(player)) {
                 entries.clear();
                 for (AbstractClientPlayerEntity worldPlayer : MinecraftClient.getInstance().world.getPlayers()) {
-                    if (gameWorldComponent.isInnocent(worldPlayer) && !gameWorldComponent.isRole(player, Noellesroles.MIMIC))
+                    if (gameWorldComponent.isInnocent(worldPlayer) && !gameWorldComponent.isRole(worldPlayer, Noellesroles.MIMIC))
                         entries.add(worldPlayer.getUuid());
                 }
             }
@@ -82,5 +82,4 @@ public abstract class GuesserScreenMixin extends LimitedHandledScreen<PlayerScre
             }
         }
     }
-
 }

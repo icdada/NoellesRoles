@@ -62,7 +62,14 @@
   "announcement.modifier.noellesroles.guesser": "Guesser",
   "announcement.modifier.noellesroles.graverobber": "Graverobber",
   "announcement.modifier.noellesroles.feather": "Feather",
-
+  "announcement.modifier.noellesroles.golden": "Golden",
+  "announcement.modifier.noellesroles.marksman": "Marksman",
+  "announcement.modifier.noellesroles.natural_gun": "Natural_gun",
+  "announcement.modifier.noellesroles.eagle_eye": "Eagle_eye",
+  "announcement.modifier.noellesroles.unethical": "Unethical",
+  "announcement.modifier.noellesroles.glutton": "Glutton",
+  "announcement.modifier.noellesroles.bottomless": "Bottomless",
+  "announcement.modifier.noellesroles.fast2fast": "FAST2FAST",
 
   "announcement.goals.noellesroles.better_vigilante": "Uhhhhhhhhhhhhh",
   "announcement.role.noellesroles.better_vigilante": "Better Vigilante",
@@ -97,6 +104,7 @@
   "tip.phantom": "Use %s to go invisible!",
   "tip.recaller.place": "Use %s to save your location!",
   "tip.recaller.teleport": "Use %s to teleport!",
+  "tip.noisemake": "按下 %s 键来曝光你的位置",
   "tip.vulture": "%s/%s bodies eaten.",
   "tip.recaller.not_enough_money": "100\uE781 required to teleport.",
   "tip.selected": "Selected",

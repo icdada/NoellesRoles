@@ -1,18 +1,18 @@
 package org.agmas.noellesroles;
-
+import dev.doctor4t.wathe.api.event.*;
+import net.minecraft.entity.player.ItemCooldownManager;
+import net.minecraft.server.MinecraftServer;
+import org.agmas.noellesroles.command.*;
 import dev.doctor4t.wathe.Wathe;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.WatheRoles;
-import dev.doctor4t.wathe.api.event.AllowPlayerPunching;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.cca.PlayerMoodComponent;
 import dev.doctor4t.wathe.cca.PlayerPsychoComponent;
 import dev.doctor4t.wathe.cca.PlayerShopComponent;
 import dev.doctor4t.wathe.client.gui.RoleAnnouncementTexts;
+import dev.doctor4t.wathe.command.ForceRoleCommand;
 import dev.doctor4t.wathe.entity.PlayerBodyEntity;
-import dev.doctor4t.wathe.api.event.AllowPlayerDeath;
-import dev.doctor4t.wathe.api.event.CanSeePoison;
-import dev.doctor4t.wathe.api.event.ShouldDropOnDeath;
 import dev.doctor4t.wathe.game.GameConstants;
 import dev.doctor4t.wathe.game.GameFunctions;
 import dev.doctor4t.wathe.index.WatheItems;
@@ -44,6 +44,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.TypeFilter;
 import net.minecraft.util.math.Vec3d;
 import org.agmas.harpymodloader.Harpymodloader;
+import org.agmas.harpymodloader.commands.SetEnabledRoleCommand;
 import org.agmas.harpymodloader.component.WorldModifierComponent;
 import org.agmas.harpymodloader.config.HarpyModLoaderConfig;
 import org.agmas.harpymodloader.events.ModdedRoleAssigned;
@@ -94,13 +95,21 @@ public class Noellesroles implements ModInitializer {
     public static Identifier CHAMELEON_ID = Identifier.of(MOD_ID, "chameleon");
     public static Identifier GRAVEROBBER_ID = Identifier.of(MOD_ID, "graverobber");
     public static Identifier FEATHER_ID = Identifier.of(MOD_ID, "feather");
+    public static Identifier GOLDEN_ID = Identifier.of(MOD_ID, "golden");
+    public static Identifier MARKSMAN_ID = Identifier.of(MOD_ID,"marksman");
+    public static Identifier NATURAL_GUN_ID = Identifier.of(MOD_ID,"natural_gun");
+    public static Identifier EAGLE_EYE_ID = Identifier.of(MOD_ID,"eagle_eye");
+    public static Identifier UNETHICAL_ID = Identifier.of(MOD_ID,"unethical");
+    public static Identifier GLUTTON_ID = Identifier.of(MOD_ID,"glutton");
+    public static Identifier BOTTOMLESS_ID = Identifier.of(MOD_ID,"bottomless");
+    public static Identifier FAST2FAST_ID = Identifier.of(MOD_ID,"fast2fast");
     public static Identifier THE_INSANE_DAMNED_PARANOID_KILLER_OF_DOOM_DEATH_DESTRUCTION_AND_WAFFLES_ID = Identifier.of(MOD_ID, "the_insane_damned_paranoid_killer");
 
     public static HashMap<Role, RoleAnnouncementTexts.RoleAnnouncementText> roleRoleAnnouncementTextHashMap = new HashMap<>();
     public static Role JESTER = WatheRoles.registerRole(new Role(JESTER_ID,new Color(255,86,243).getRGB() ,false,false, Role.MoodType.FAKE,Integer.MAX_VALUE,true));
     public static Role MORPHLING =WatheRoles.registerRole(new Role(MORPHLING_ID, new Color(170, 2, 61).getRGB(),false,true, Role.MoodType.FAKE,Integer.MAX_VALUE,true));
     public static Role CONDUCTOR =WatheRoles.registerRole(new Role(CONDUCTOR_ID, new Color(255, 205, 84).getRGB(),true,false, Role.MoodType.REAL,WatheRoles.CIVILIAN.getMaxSprintTime(),false));
-    public static Role AWESOME_BINGLUS = WatheRoles.registerRole(new Role(AWESOME_BINGLUS_ID, new Color(155, 255, 168).getRGB(),true,false, Role.MoodType.REAL,WatheRoles.CIVILIAN.getMaxSprintTime(),false));
+    public static Role AWESOME_BINGLUS = WatheRoles.registerRole(new Role(AWESOME_BINGLUS_ID, new Color(155, 255, 168).getRGB(),true,false, Role.MoodType.REAL,WatheRoles.CIVILIAN.getMaxSprintTime(),true));
 
     public static Role BARTENDER =WatheRoles.registerRole(new Role(BARTENDER_ID, new Color(217,241,240).getRGB(),true,false, Role.MoodType.REAL,WatheRoles.CIVILIAN.getMaxSprintTime(),false));
     public static Role NOISEMAKER =WatheRoles.registerRole(new Role(NOISEMAKER_ID, new Color(200, 255, 0).getRGB(),true,false, Role.MoodType.REAL,WatheRoles.CIVILIAN.getMaxSprintTime(),false));
@@ -127,9 +136,86 @@ public class Noellesroles implements ModInitializer {
     public static Modifier GUESSER = HMLModifiers.registerModifier(new Modifier(GUESSER_ID, new Color(158, 43, 25, 255).getRGB(),new ArrayList<>(List.of(THE_INSANE_DAMNED_PARANOID_KILLER_OF_DOOM_DEATH_DESTRUCTION_AND_WAFFLES)),null,true,false));
     public static Modifier GRAVEROBBER = HMLModifiers.registerModifier(new Modifier(GRAVEROBBER_ID, new Color(174, 95, 95, 255).getRGB(),null,null,true,false));
     public static Modifier FEATHER = HMLModifiers.registerModifier(new Modifier(FEATHER_ID, new Color(255, 236, 161, 255).getRGB(),null,null,false,false));
-
-
-
+    public static Modifier GOLDEN = HMLModifiers.registerModifier(
+            new Modifier(
+                    GOLDEN_ID,                           // 字符串 id，例如 "hml:golden"
+                    new Color(0xFFD700).getRGB(),      // 纯金黄 (255, 215, 0)
+                    null,                                // 无角色绑定
+                    null,                                // 无数值加成
+                    false,                               // 不隐藏（tooltip 可见）
+                    false                                // 非诅咒
+            )
+    );
+    public static Modifier MARKSMAN = HMLModifiers.registerModifier(
+            new Modifier(
+                    MARKSMAN_ID,                      // "hml:marksman"
+                    new Color(0x87CEEB).getRGB(),     // 淡蓝色 SkyBlue (135, 206, 235)
+                    null,                             // 无角色绑定
+                    null,                             // 无数值加成
+                    false,                            // 不隐藏（tooltip 可见）
+                    true                             // 非诅咒
+            )
+    );
+    public static Modifier NATURAL_GUN = HMLModifiers.registerModifier(
+            new Modifier(
+                    NATURAL_GUN_ID,                  // "hml:natural_gun"
+                    new Color(0x1E3A8A).getRGB(),    // 深蓝色 (30, 58, 138)
+                    null,                            // 无角色绑定
+                    null,                            // 无数值加成
+                    false,                           // 不隐藏（tooltip 可见）
+                    true                            // 非诅咒
+            )
+    );
+    public static Modifier EAGLE_EYE = HMLModifiers.registerModifier(
+            new Modifier(
+                    EAGLE_EYE_ID,
+                    new Color(0x4B0082).getRGB(),
+                    null,
+                    new ArrayList<>(List.of(WatheRoles.VIGILANTE,Noellesroles.AWESOME_BINGLUS)),                            // 无数值加成
+                    false,
+                    false
+            )
+    );
+    public static Modifier UNETHICAL = HMLModifiers.registerModifier(
+            new Modifier(
+                    UNETHICAL_ID,                    // "hml:unethical"
+                    new Color(0x1C1C1C).getRGB(),    // 深黑 (28, 28, 28)
+                    null,                            // 无角色绑定
+                    null,                            // 无数值加成
+                    false,                           // 不隐藏（tooltip 可见）
+                    true                            // 非诅咒
+            )
+    );
+    public static Modifier GLUTTON = HMLModifiers.registerModifier(
+            new Modifier(
+                    GLUTTON_ID,                    // "hml:unethical"
+                    new Color(0xFFD700).getRGB(),    // 深黑 (28, 28, 28)
+                    null,                            // 无角色绑定
+                    null,                            // 无数值加成
+                    false,                           // 不隐藏（tooltip 可见）
+                    true                            // 非诅咒
+            )
+    );
+    public static Modifier BOTTOMLESS = HMLModifiers.registerModifier(
+            new Modifier(
+                    BOTTOMLESS_ID,                    // "hml:unethical"
+                    new Color(0x5C3317).getRGB(),    // 深黑 (28, 28, 28)
+                    null,                            // 无角色绑定
+                    null,                            // 无数值加成
+                    false,                           // 不隐藏（tooltip 可见）
+                    true                            // 非诅咒
+            )
+    );
+    public static Modifier FAST2FAST = HMLModifiers.registerModifier(
+            new Modifier(
+                    FAST2FAST_ID,                    // "hml:unethical"
+                    new Color(0x00FFFF).getRGB(),    // 深黑 (28, 28, 28)
+                    null,                            // 无角色绑定
+                    null,                            // 无数值加成
+                    false,                           // 不隐藏（tooltip 可见）
+                    true                            // 非诅咒
+            )
+    );
     public static final CustomPayload.Id<MorphC2SPacket> MORPH_PACKET = MorphC2SPacket.ID;
     public static final CustomPayload.Id<SwapperC2SPacket> SWAP_PACKET = SwapperC2SPacket.ID;
     public static final CustomPayload.Id<AbilityC2SPacket> ABILITY_PACKET = AbilityC2SPacket.ID;
@@ -172,7 +258,7 @@ public class Noellesroles implements ModInitializer {
         Harpymodloader.setRoleMaximum(EXECUTIONER_ID,1);
         Harpymodloader.setRoleMaximum(VULTURE_ID,1);
         Harpymodloader.setRoleMaximum(JESTER_ID,1);
-        Harpymodloader.setRoleMaximum(BETTER_VIGILANTE_ID,1);
+        Harpymodloader.setRoleMaximum(BETTER_VIGILANTE_ID,NoellesRolesConfig.HANDLER.instance().maxPoliceCount);
 
         PayloadTypeRegistry.playC2S().register(MorphC2SPacket.ID, MorphC2SPacket.CODEC);
         PayloadTypeRegistry.playC2S().register(AbilityC2SPacket.ID, AbilityC2SPacket.CODEC);
@@ -183,6 +269,13 @@ public class Noellesroles implements ModInitializer {
         registerEvents();
 
         registerPackets();
+        CommandRegistrationCallback.EVENT.register(((dispatcher, registryAccess, environment) -> {
+            SetRoleCommand.register(dispatcher);
+            SetNowCommand.register(dispatcher);
+            SetModCommand.register(dispatcher);
+            SetPlayerCommand.register(dispatcher);
+            FastDebugCommand.register(dispatcher);
+        }));
 
         if (NoellesRolesConfig.HANDLER.instance().allowCivillianGuessers) {
             GUESSER.killerOnly = false;
@@ -193,7 +286,7 @@ public class Noellesroles implements ModInitializer {
 
     EntityAttributeModifier tinyModifier = new EntityAttributeModifier(Identifier.of(MOD_ID, "tiny_modifier"), -0.15, EntityAttributeModifier.Operation.ADD_VALUE);
 
-
+    public boolean ResetPlayerSlots;
 
     public void registerEvents() {
         //
@@ -339,7 +432,20 @@ public class Noellesroles implements ModInitializer {
             }
             HarpyModLoaderConfig.HANDLER.save();
         }
+        GameEvents.ON_GAME_START.register((gameMode) -> {ResetPlayerSlots = true;});
+        ServerTickEvents.START_SERVER_TICK.register(server -> {
+            if (ResetPlayerSlots) {
+                for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()) {
 
+                    int cooldown = GameConstants.getInTicks(0, 30);
+                    ItemCooldownManager itemCooldownManager = player.getItemCooldownManager();
+                    itemCooldownManager.set(WatheItems.REVOLVER, cooldown);
+                    itemCooldownManager.set(WatheItems.KNIFE, cooldown);
+
+                }
+                ResetPlayerSlots = false;
+            }
+        });
 
     }
 
@@ -438,7 +544,7 @@ public class Noellesroles implements ModInitializer {
             GameWorldComponent gameWorldComponent = (GameWorldComponent) GameWorldComponent.KEY.get(context.player().getWorld());
             WorldModifierComponent worldModifierComponent = WorldModifierComponent.KEY.get(context.player().getWorld());
             boolean Cd = true;
-            if (worldModifierComponent.isRole(context.player(), GUESSER)) {
+            if (worldModifierComponent.isModifier(context.player(), GUESSER)) {
 
                 if (payload.player() != null) {
                     if (context.player().getWorld().getPlayerByUuid(payload.player()) != null) {
@@ -456,7 +562,7 @@ public class Noellesroles implements ModInitializer {
                                     if (gameWorldComponent.getRole(target).canUseKiller()) wrong = true;
                                 }
                                 if (Harpymodloader.SPECIAL_ROLES.contains(gameWorldComponent.getRole(target))) wrong = true;
-                                if (gameWorldComponent.isRole(target,Noellesroles.BETTER_VIGILANTE)) {
+                                if (gameWorldComponent.isRole(target,Noellesroles.BETTER_VIGILANTE)||gameWorldComponent.isRole(target,WatheRoles.VIGILANTE)) {
                                     wrong = true;
                                     Cd = false;
                                 }

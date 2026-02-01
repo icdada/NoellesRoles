@@ -1,13 +1,17 @@
 package org.agmas.noellesroles.bartender;
 
+import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameConstants;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.GameMode;
 import org.agmas.noellesroles.Noellesroles;
+import org.agmas.noellesroles.config.NoellesRolesConfig;
 import org.jetbrains.annotations.NotNull;
 import org.ladysnake.cca.api.v3.component.ComponentKey;
 import org.ladysnake.cca.api.v3.component.ComponentRegistry;
@@ -48,12 +52,25 @@ public class BartenderPlayerComponent implements AutoSyncedComponent, ServerTick
         }
         this.sync();
     }
-
+    public boolean setArmor(int armor) {
+        this.armor = armor;
+        this.sync();
+        return true;
+    }
     public boolean giveArmor() {
         armor = 1;
         this.sync();
         return true;
     }
+    public boolean addArmor() {
+        if (armor < NoellesRolesConfig.HANDLER.instance().bartenderMaxArmorSet) {
+            armor++;
+        }
+        this.player.sendMessage(Text.literal("你已经获取" + armor + "层护盾").formatted(Formatting.BLUE),true);
+        this.sync();
+        return true;
+    }
+
 
 
     public boolean startGlow() {

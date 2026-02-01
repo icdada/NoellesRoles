@@ -14,9 +14,11 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import org.agmas.harpymodloader.component.WorldModifierComponent;
 import org.agmas.noellesroles.ModItems;
 import org.agmas.noellesroles.Noellesroles;
 import org.agmas.noellesroles.bartender.BartenderPlayerComponent;
+import org.agmas.noellesroles.config.NoellesRolesConfig;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -35,11 +37,16 @@ public abstract class PoisonToHealsMixin {
     @Inject(method = "setPoisonTicks", at = @At("HEAD"), cancellable = true)
     private void defenseVialApply(int ticks, UUID poisoner, CallbackInfo ci) {
         GameWorldComponent gameWorldComponent = GameWorldComponent.KEY.get(player.getWorld());
+        WorldModifierComponent worldModifierComponent = WorldModifierComponent.KEY.get(player.getWorld());
         if (gameWorldComponent.isRole(poisoner, Noellesroles.BARTENDER)) {
             if (player.getWorld().getPlayerByUuid(poisoner) == null) return;
             BartenderPlayerComponent bartenderPlayerComponent = BartenderPlayerComponent.KEY.get(player);
-            bartenderPlayerComponent.giveArmor();
+            if (worldModifierComponent.isModifier(player,Noellesroles.FAST2FAST)|| NoellesRolesConfig.HANDLER.instance().bartender) bartenderPlayerComponent.addArmor();
+            else bartenderPlayerComponent.giveArmor();
             ci.cancel();
         }
+        /*if (gameWorldComponent.isRole(poisoner, Noellesroles.NOISEMAKER) || gameWorldComponent.isRole(poisoner, Noellesroles.MIMIC) || gameWorldComponent.isRole(poisoner, Noellesroles.JESTER) || gameWorldComponent.isRole(poisoner, Noellesroles.EXECUTIONER)){
+            ci.cancel();
+        }*/
     }
 }
